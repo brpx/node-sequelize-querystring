@@ -4,7 +4,8 @@
 [![License](https://img.shields.io/npm/l/sequelize.svg?maxAge=2592000?style=plastic)](https://github.com/sequelize/sequelize/blob/master/LICENSE)
 
 The aim of this module it to convert the request query string into sequelize compatible where and sort clauses.
-The reason this new module exists are resumed in one word: minimalist
+
+The reason for the existence of this module is resumed in one single word: minimalist.
 
 ## Features so far:
 
