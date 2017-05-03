@@ -9,6 +9,7 @@ The reason this new module exists are resumed in one word: minimalist
 ## Features so far:
 
 - Convert filter attribute into where clauses
+- Nested properties
 - Supports almost every operator, whoever only eq is well tested (work in progress) 
 - Convert sort attribute into order clause
 
@@ -18,6 +19,8 @@ Example in a [hapijs compatible](https://hapijs.com/api#route-handler) request h
 
 ```javascript
   const sqs = require('sequelize-querystring')
+  const ArticlesModel = require('./models/articles')
+
   // list articles
   exports.list = (req, res) => {
     return ArticlesModel.findAndCountAll({
