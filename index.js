@@ -24,14 +24,15 @@ exports.find = (expression) => {
     let parts = (expression).split(',')
     where = { }
     for (let i = 0; i < parts.length; i++) {
-      if (parts[i].match(/([\w|.]+)\s(\w+)\s([\w|.|-]+)/)) {
+      if (parts[i].match(/([\w|.]+)\s(\w+)\s([\w|.|:|-]+)/)) {
         let prop = RegExp.$1
         let op = RegExp.$2
         let value = RegExp.$3
         if (operators.findIndex((o) => op === o) < 0) {
           throw new Error(`Invalid operator ${op}`)
         }
-        _.set(where, `${prop}.$${op}`, value)
+        // _.set(where, `${prop}.$${op}`, value)
+        _.set(where, `${prop}.$${op}`, op.match(/like/i) ? `%${value}%` : value)
       }
     }
   }
