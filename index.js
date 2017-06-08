@@ -3,7 +3,8 @@
 const _ = require('lodash')
 
 const defaultValue = (v) => v
-const arrayValue = (v) => v.split('+')
+const arrayValue = (v) => { return v.split('+').map(v => `{${v}}`) }
+const likeValue = (v) => { return `%${v}%` }
 const operators = {
   'and': { op: '$and', val: defaultValue },
   'or': { op: '$or', val: defaultValue },
@@ -16,15 +17,16 @@ const operators = {
   'not': { op: '$not', val: defaultValue },
   'between': { op: '$between', val: defaultValue },
   'notBetween': { op: '$notBetween', val: defaultValue },
-  'in': { op: '$in', val: defaultValue },
-  'notIn': { op: '$notIn', val: defaultValue },
-  'like': { op: '$like', val: (v) => { return `%${v}%` } },
-  'notLike': { op: '$notLike', val: defaultValue },
-  'iLike': { op: '$iLike', val: defaultValue },
-  'notILike': { op: '$notILike', val: defaultValue },
-  'overlap': { op: 'array.$overlap', val: arrayValue },
-  'contains': { op: 'array.$contains', val: arrayValue },
-  'contained': { op: 'array.$contained', val: arrayValue },
+  'in': { op: '$in', val: arrayValue },
+  'notIn': { op: '$notIn', val: arrayValue },
+  'like': { op: '$like', val: likeValue },
+  'notLike': { op: '$notLike', val: likeValue },
+  'iLike': { op: '$iLike', val: likeValue },
+  'notILike': { op: '$notILike', val: likeValue },
+  // under work
+  // 'overlap': { op: 'array.$overlap', val: arrayValue },
+  // 'contains': { op: 'array.$contains', val: arrayValue },
+  // 'contained': { op: 'array.$contained', val: arrayValue },
   'any': { op: '$any', val: defaultValue }
 }
 
