@@ -2,14 +2,31 @@
 
 const _ = require('lodash')
 
-const operators = [
-  'and', 'or',
-  'gt', 'gte', 'lt', 'lte', 'ne', 'eq',
-  'not', 'between', 'notBetween',
-  'in', 'notIn',
-  'like', 'notLike', 'iLike', 'notILike', 'like',
-  'overlap', 'contains', 'contained', 'any'
-]
+const defaultValue = (v) => v
+const arrayValue = (v) => v.split('+')
+const operators = {
+  'and': { op: '$and', val: defaultValue },
+  'or': { op: '$or', val: defaultValue },
+  'gt': { op: '$gt', val: defaultValue },
+  'gte': { op: '$gte', val: defaultValue },
+  'lt': { op: '$lt', val: defaultValue },
+  'lte': { op: '$lte', val: defaultValue },
+  'ne': { op: '$ne', val: defaultValue },
+  'eq': { op: '$eq', val: defaultValue },
+  'not': { op: '$not', val: defaultValue },
+  'between': { op: '$between', val: defaultValue },
+  'notBetween': { op: '$notBetween', val: defaultValue },
+  'in': { op: '$in', val: defaultValue },
+  'notIn': { op: '$notIn', val: defaultValue },
+  'like': { op: '$like', val: (v) => { return `%${v}%` } },
+  'notLike': { op: '$notLike', val: defaultValue },
+  'iLike': { op: '$iLike', val: defaultValue },
+  'notILike': { op: '$notILike', val: defaultValue },
+  'overlap': { op: 'array.$overlap', val: arrayValue },
+  'contains': { op: 'array.$contains', val: arrayValue },
+  'contained': { op: 'array.$contained', val: arrayValue },
+  'any': { op: '$any', val: defaultValue }
+}
 
 /**
  * Converts the find query string attribute into a where clause
@@ -24,15 +41,15 @@ exports.find = (expression) => {
     let parts = (expression).split(',')
     where = { }
     for (let i = 0; i < parts.length; i++) {
-      if (parts[i].match(/([\w|.]+)\s(\w+)\s([\w|.|:|-]+)/)) {
+      if (parts[i].match(/([\w|.]+)\s(\w+)\s([\w|+|.|:|-]+)/)) {
         let prop = RegExp.$1
         let op = RegExp.$2
         let value = RegExp.$3
-        if (operators.findIndex((o) => op === o) < 0) {
+        if (!operators[op]) {
           throw new Error(`Invalid operator ${op}`)
         }
-        // _.set(where, `${prop}.$${op}`, value)
-        _.set(where, `${prop}.$${op}`, op.match(/like/i) ? `%${value}%` : value)
+        const operator = operators[op]
+        _.set(where, `${prop}.${operator.op}`, operator.val(value))
       }
     }
   }
