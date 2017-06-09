@@ -6,8 +6,8 @@ const defaultValue = (v) => v
 const arrayValue = (v) => { return v.split('+').map(v => `{${v}}`) }
 const likeValue = (v) => { return `%${v}%` }
 const operators = {
-  'and': { op: '$and', val: defaultValue },
-  'or': { op: '$or', val: defaultValue },
+  // 'and': { op: '$and', val: defaultValue },
+  // 'or': { op: '$or', val: defaultValue },
   'gt': { op: '$gt', val: defaultValue },
   'gte': { op: '$gte', val: defaultValue },
   'lt': { op: '$lt', val: defaultValue },
@@ -15,8 +15,8 @@ const operators = {
   'ne': { op: '$ne', val: defaultValue },
   'eq': { op: '$eq', val: defaultValue },
   'not': { op: '$not', val: defaultValue },
-  'between': { op: '$between', val: defaultValue },
-  'notBetween': { op: '$notBetween', val: defaultValue },
+  // 'between': { op: '$between', val: defaultValue },
+  // 'notBetween': { op: '$notBetween', val: defaultValue },
   'in': { op: '$in', val: arrayValue },
   'notIn': { op: '$notIn', val: arrayValue },
   'like': { op: '$like', val: likeValue },
@@ -72,12 +72,15 @@ exports.find = (expression) => {
 exports.sort = (expression) => {
   // order=geoId desc
   let order = []
-  let exp = expression.split(' ')
-  if (exp.length === 2) {
-    let prop = exp[0]
-    let ord = exp[1].toUpperCase()
-    if (ord.match(/ASC|DESC/i)) {
-      order.push([prop, ord.toUpperCase()])
+  let expressions = expression.split(/\s*,\s*/)
+  for (var e = 0; e < expressions.length; e++) {
+    let exp = expressions[e].split(' ')
+    if (exp.length === 2) {
+      let prop = exp[0]
+      let ord = exp[1].toUpperCase()
+      if (ord.match(/ASC|DESC/i)) {
+        order.push([prop, ord.toUpperCase()])
+      }
     }
   }
   if (order == null) {

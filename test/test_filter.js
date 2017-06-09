@@ -72,23 +72,4 @@ describe('Convert query strings filter attribute into Sequelize find queries.', 
     expect(where).to.be.instanceof(Object)
     expect(where).to.have.deep.property('list.$notIn.0', '{ricardo}')
   })
-
-  // Sequelize syntax is not clear, need to work on this one!
-
-  // it('(array contains) PosgreSQL contains operator.', () => {
-  //   let qs = 'list contains ricardo'
-  //   let where = filter.find(qs)
-  //   console.log(JSON.stringify(where))
-  //   expect(where).to.be.instanceof(Object)
-  //   expect(where).to.have.deep.property('list.array.$contains.0', '{ricardo}')
-  // })
-
-  // it('(array contains) PosgreSQL contains operator.', () => {
-  //   let qs = 'list contains ricardo+joao'
-  //   let where = filter.find(qs)
-  //   console.log(JSON.stringify(where))
-  //   expect(where).to.be.instanceof(Object)
-  //   expect(where).to.have.deep.property('list.array.$contains.0', '{ricardo}')
-  //   expect(where).to.have.deep.property('list.array.$contains.1', '{joao}')
-  // })
 })

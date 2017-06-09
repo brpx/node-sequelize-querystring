@@ -10,9 +10,11 @@ The reason for the existence of this module is resumed in one single word: minim
 ## Features so far:
 
 - Convert filter attribute into where clauses
+- Multiple filter values (comma separated)
 - Nested properties
-- Supports almost every operator, whoever only eq is well tested (work in progress) 
+- Supports almost every operator (only tested: gt, gte, lt, lte, eq, ne, not, in, notIn, like, notLike, iLike, notILike)
 - Convert sort attribute into order clause
+- Multiple sort values (comma separated)
 
 ## Usage
 
