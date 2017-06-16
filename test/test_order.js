@@ -40,4 +40,20 @@ describe('Convert query string sort attribute into Sequelize order queries.', (d
       expect(order[1]).to.be.instanceof(Object)
       expect(order[1]).to.be.instanceof(Array)
     })
+
+    it('RANDOM results (PostgreSQL) should fail in unexistent sequelize instance.', () => {
+      let qs = 'random'
+      let order = filter.sort(qs)
+      expect(order).to.be.instanceof(Object)
+      expect(order).to.be.instanceof(Array)
+      expect(order.length).to.be.equal(0)
+    })
+
+    it('RANDOM results (PostgreSQL) should return random literal.', () => {
+      let qs = 'random'
+      let sequelize = require('sequelize')
+      let order = filter.sort(qs, sequelize)
+      expect(order).to.be.instanceof(Object)
+      expect(order).to.have.deep.property('0.fn', 'RANDOM')
+    })
 })

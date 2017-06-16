@@ -69,7 +69,7 @@ exports.find = (expression) => {
  * @param {any} qs expression
  * @returns {array} order clause
  */
-exports.sort = (expression) => {
+exports.sort = (expression, sequelize) => {
   // order=geoId desc
   let order = []
   let expressions = expression.split(/\s*,\s*/)
@@ -81,6 +81,11 @@ exports.sort = (expression) => {
       if (ord.match(/ASC|DESC/i)) {
         order.push([prop, ord.toUpperCase()])
       }
+    }
+  }
+  if (expression.match(/RANDOM/i)) {
+    if (sequelize != null) {
+      order = [sequelize.fn('RANDOM')]
     }
   }
   if (order == null) {
