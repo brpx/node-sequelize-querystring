@@ -6,8 +6,8 @@ const defaultValue = (v) => v
 const arrayValue = (v) => { return v.split('+').map(v => `{${v}}`) }
 const likeValue = (v) => { return `%${v}%` }
 const operators = {
-  // 'and': { op: '$and', val: defaultValue },
-  // 'or': { op: '$or', val: defaultValue },
+  //  soon 'and': { op: '$and', val: defaultValue },
+  //  soon 'or': { op: '$or', val: defaultValue },
   'gt': { op: '$gt', val: defaultValue },
   'gte': { op: '$gte', val: defaultValue },
   'lt': { op: '$lt', val: defaultValue },
@@ -15,19 +15,17 @@ const operators = {
   'ne': { op: '$ne', val: defaultValue },
   'eq': { op: '$eq', val: defaultValue },
   'not': { op: '$not', val: defaultValue },
-  // 'between': { op: '$between', val: defaultValue },
-  // 'notBetween': { op: '$notBetween', val: defaultValue },
+  // soon 'between': { op: '$between', val: defaultValue },
+  // soon 'notBetween': { op: '$notBetween', val: defaultValue },
   'in': { op: '$in', val: arrayValue },
   'notIn': { op: '$notIn', val: arrayValue },
   'like': { op: '$like', val: likeValue },
   'notLike': { op: '$notLike', val: likeValue },
   'iLike': { op: '$iLike', val: likeValue },
   'notILike': { op: '$notILike', val: likeValue },
-  // under work
-  // 'overlap': { op: 'array.$overlap', val: arrayValue },
-  // 'contains': { op: 'array.$contains', val: arrayValue },
-  // 'contained': { op: 'array.$contained', val: arrayValue },
-  'any': { op: '$any', val: defaultValue }
+  'overlap': { op: '$overlap', val: arrayValue },
+  'contains': { op: '$contains', val: arrayValue },
+  'contained': { op: '$contained', val: arrayValue },
 }
 
 /**
@@ -59,7 +57,6 @@ exports.find = (expression) => {
   if (where == null) {
     throw new Error(`Invalid expression ${expression}`)
   }
-
   return where
 }
 

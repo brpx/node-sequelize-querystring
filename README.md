@@ -12,7 +12,10 @@ The reason for the existence of this module is resumed in one single word: minim
 - Convert filter attribute into where clauses
 - Multiple filter values (comma separated)
 - Nested properties
-- Supports almost every operator (only tested: gt, gte, lt, lte, eq, ne, not, in, notIn, like, notLike, iLike, notILike)
+- Supports almost every operator 
+Tested operators:
+values: gt, gte, lt, lte, eq, ne, not, in, notIn, like, notLike, iLike, notILike
+arrays: overlap, contains, contained
 - Convert sort attribute into order clause
 - Multiple sort values (comma separated)
 
