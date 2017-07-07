@@ -55,21 +55,21 @@ describe('Convert query strings filter attribute into Sequelize find queries.', 
     let qs = 'list in ricardo'
     let where = filter.find(qs)
     expect(where).to.be.instanceof(Object)
-    expect(where).to.have.deep.property('list.$in.0', '{ricardo}')
+    expect(where).to.have.deep.property('list.$in.0', 'ricardo')
   })
 
   it('(in) PosgreSQL In operator, with multiple values.', () => {
-    let qs = 'list in ricardo+joao'
+    let qs = 'list in ricardo joao'
     let where = filter.find(qs)
     expect(where).to.be.instanceof(Object)
-    expect(where).to.have.deep.property('list.$in.0', '{ricardo}')
-    expect(where).to.have.deep.property('list.$in.1', '{joao}')
+    expect(where).to.have.deep.property('list.$in.0', 'ricardo')
+    expect(where).to.have.deep.property('list.$in.1', 'joao')
   })
 
   it('(notIn) PosgreSQL In operator.', () => {
     let qs = 'list notIn ricardo'
     let where = filter.find(qs)
     expect(where).to.be.instanceof(Object)
-    expect(where).to.have.deep.property('list.$notIn.0', '{ricardo}')
+    expect(where).to.have.deep.property('list.$notIn.0', 'ricardo')
   })
 })

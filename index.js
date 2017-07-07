@@ -4,6 +4,7 @@ const _ = require('lodash')
 
 const defaultValue = (v) => v
 const arrayValue = (v) => { return v.split('+').map(v => `{${v}}`) }
+const arrayInValue = (v) => v.split(' ')
 const likeValue = (v) => { return `%${v}%` }
 const operators = {
   //  soon 'and': { op: '$and', val: defaultValue },
@@ -17,15 +18,15 @@ const operators = {
   'not': { op: '$not', val: defaultValue },
   // soon 'between': { op: '$between', val: defaultValue },
   // soon 'notBetween': { op: '$notBetween', val: defaultValue },
-  'in': { op: '$in', val: arrayValue },
-  'notIn': { op: '$notIn', val: arrayValue },
+  'in': { op: '$in', val: arrayInValue },
+  'notIn': { op: '$notIn', val: arrayInValue },
   'like': { op: '$like', val: likeValue },
   'notLike': { op: '$notLike', val: likeValue },
   'iLike': { op: '$iLike', val: likeValue },
   'notILike': { op: '$notILike', val: likeValue },
   'overlap': { op: '$overlap', val: arrayValue },
   'contains': { op: '$contains', val: arrayValue },
-  'contained': { op: '$contained', val: arrayValue },
+  'contained': { op: '$contained', val: arrayValue }
 }
 
 /**
