@@ -37,11 +37,11 @@ const operators = {
 exports.find = (expression) => {
   // filter=geoId eq 111, properties.publicoId  eq 1231
   let where
-  if (expression.match(/(([\w|.]+)\s(\w+)\s(\w+),?)+/)) {
+  if (expression.match(/(([\w|.]+)\s(\w+)\s([\w|\s]+),?)+/)) {
     let parts = (expression).split(',')
     where = { }
     for (let i = 0; i < parts.length; i++) {
-      if (parts[i].match(/([\w|.]+)\s(\w+)\s([\w|+|.|:|-]+)/)) {
+      if (parts[i].match(/([\w|.]+)\s(\w+)\s([\w|+|.|:|-\s]+)/)) {
         let prop = RegExp.$1
         let op = RegExp.$2
         let value = RegExp.$3
