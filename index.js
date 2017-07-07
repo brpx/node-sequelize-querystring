@@ -3,8 +3,8 @@
 const _ = require('lodash')
 
 const defaultValue = (v) => v
-const arrayValue = (v) => { return v.split('+').map(v => `{${v}}`) }
-const arrayInValue = (v) => v.split(' ')
+const arrayHave = (v) => { return v.split(' ').map(v => { return isNaN(v) ? `{${v}}` : v }) }
+const valueInArray = (v) => v.split(' ').map(v => { return `{${v}}` })
 const likeValue = (v) => { return `%${v}%` }
 const operators = {
   //  soon 'and': { op: '$and', val: defaultValue },
@@ -18,15 +18,15 @@ const operators = {
   'not': { op: '$not', val: defaultValue },
   // soon 'between': { op: '$between', val: defaultValue },
   // soon 'notBetween': { op: '$notBetween', val: defaultValue },
-  'in': { op: '$in', val: arrayInValue },
-  'notIn': { op: '$notIn', val: arrayInValue },
+  'in': { op: '$in', val: valueInArray },
+  'notIn': { op: '$notIn', val: valueInArray },
   'like': { op: '$like', val: likeValue },
   'notLike': { op: '$notLike', val: likeValue },
   'iLike': { op: '$iLike', val: likeValue },
   'notILike': { op: '$notILike', val: likeValue },
-  'overlap': { op: '$overlap', val: arrayValue },
-  'contains': { op: '$contains', val: arrayValue },
-  'contained': { op: '$contained', val: arrayValue }
+  'overlap': { op: '$overlap', val: arrayHave },
+  'contains': { op: '$contains', val: arrayHave },
+  'contained': { op: '$contained', val: arrayHave }
 }
 
 /**
@@ -42,7 +42,7 @@ exports.find = (expression) => {
     let parts = (expression).split(',')
     where = { }
     for (let i = 0; i < parts.length; i++) {
-      if (parts[i].match(/([\w|.]+)\s(\w+)\s([\w|+|.|:|-\s]+)/)) {
+      if (parts[i].match(/([\w|.]+)\s(\w+)\s([\w|+|.|:|\-|\s]+)/)) {
         let prop = RegExp.$1
         let op = RegExp.$2
         let value = RegExp.$3
