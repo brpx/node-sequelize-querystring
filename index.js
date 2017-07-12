@@ -4,7 +4,7 @@ const _ = require('lodash')
 
 const defaultValue = (v) => v
 const arrayHave = (v) => { return v.split(' ').map(v => { return isNaN(v) ? `{${v}}` : v }) }
-const valueInArray = (v) => v.split(' ').map(v => { return `{${v}}` })
+// const valueInArray = (v) => v.split(' ').map(v => { return `{${v}}` })
 const likeValue = (v) => { return `%${v}%` }
 const operators = {
   //  soon 'and': { op: '$and', val: defaultValue },
@@ -18,8 +18,9 @@ const operators = {
   'not': { op: '$not', val: defaultValue },
   // soon 'between': { op: '$between', val: defaultValue },
   // soon 'notBetween': { op: '$notBetween', val: defaultValue },
-  'in': { op: '$in', val: valueInArray },
-  'notIn': { op: '$notIn', val: valueInArray },
+  'or': { op: '$or', val: arrayHave },
+  'in': { op: '$in', val: arrayHave },
+  'notIn': { op: '$notIn', val: arrayHave },
   'like': { op: '$like', val: likeValue },
   'notLike': { op: '$notLike', val: likeValue },
   'iLike': { op: '$iLike', val: likeValue },
