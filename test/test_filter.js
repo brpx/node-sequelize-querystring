@@ -72,4 +72,25 @@ describe('Convert query strings filter attribute into Sequelize find queries.', 
     expect(where).to.be.instanceof(Object)
     expect(where).to.have.deep.property('list.$notIn.0', '{ricardo}')
   })
+
+  it('PosgreSQL IS NULL (lower case).', () => {
+    let qs = 'value eq null'
+    let where = filter.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('value.$eq', null)
+  })
+
+  it('PosgreSQL IS NULL (upper case).', () => {
+    let qs = 'value eq NULL'
+    let where = filter.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('value.$eq', null)
+  })
+
+  it('PosgreSQL IS NOT NULL.', () => {
+    let qs = 'value ne null'
+    let where = filter.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('value.$ne', null)
+  })
 })
