@@ -51,6 +51,11 @@ exports.find = (expression) => {
           throw new Error(`Invalid operator ${op}`)
         }
         const operator = operators[op]
+        // if the value is null, dont use operator to force the "is null"
+        if (value.match(/^null$/i)) {
+          _.set(where, prop, null)
+          continue
+        }
         _.set(where, `${prop}.${operator.op}`, operator.val(value))
       }
     }
