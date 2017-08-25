@@ -44,6 +44,15 @@ describe('Convert query strings filter attribute into Sequelize find queries.', 
     expect(where).to.have.deep.property('startDate.$eq', date)
   })
 
+  // test email
+  it('(eq) Date as a equal value.', () => {
+    let email = 'ricardo@brpx.com'
+    let qs = `email eq ${email}`
+    let where = filter.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('email.$eq', email)
+  })
+
   it('(like) Like operators force to search full field value.', () => {
     let qs = 'name like ricardo'
     let where = filter.find(qs)
