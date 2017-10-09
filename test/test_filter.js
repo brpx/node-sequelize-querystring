@@ -53,11 +53,25 @@ describe('Convert query strings filter attribute into Sequelize find queries.', 
     expect(where).to.have.deep.property('email.$eq', email)
   })
 
-  it('(like) Like operators force to search full field value.', () => {
+  it('(like) Like operator to match exact string.', () => {
     let qs = 'name like ricardo'
     let where = filter.find(qs)
     expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('name.$like', 'ricardo')
+  })
+
+  it('(like) Like operator to search full string value.', () => {
+    let qs = 'name like %ricardo%'
+    let where = filter.find(qs)
+    expect(where).to.be.instanceof(Object)
     expect(where).to.have.deep.property('name.$like', '%ricardo%')
+  })
+
+  it('(iLike) case insencitive Like operator to search partial string value.', () => {
+    let qs = 'name iLike ricardo%'
+    let where = filter.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('name.$iLike', 'ricardo%')
   })
 
   it('(in) PosgreSQL In operator.', () => {
