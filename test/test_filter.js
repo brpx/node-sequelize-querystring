@@ -67,6 +67,41 @@ describe('Convert query strings filter attribute into Sequelize find queries.', 
     expect(where).to.have.deep.property('name.$like', '%ricardo%')
   })
 
+  it('(like) Like operator to match with wildcard at the beginning.', () => {
+    let qs = 'name like %ricardo'
+    let where = filter.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('name.$like', '%ricardo')
+  })
+
+  it('(like) Like operator to match with wildcard at the end.', () => {
+    let qs = 'name like ricardo%'
+    let where = filter.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('name.$like', 'ricardo%')
+  })
+
+  it('(like) Like operator to match with wildcard in the middle.', () => {
+    let qs = 'name like ri%do'
+    let where = filter.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('name.$like', 'ri%do')
+  })
+
+  it('(like) Like operator to match with single character match wildcard.', () => {
+    let qs = 'name like ric_rdo'
+    let where = filter.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('name.$like', 'ric_rdo')
+  })
+
+  it('(like) Like operator to match using both wildcards.', () => {
+    let qs = 'name like ric_r%o'
+    let where = filter.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('name.$like', 'ric_r%o')
+  })
+
   it('(iLike) case insencitive Like operator to search partial string value.', () => {
     let qs = 'name iLike ricardo%'
     let where = filter.find(qs)
