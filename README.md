@@ -15,7 +15,7 @@ The reason for the existence of this module is resumed in one single word: minim
 - Supports almost every operator 
 Tested operators:
 values: gt, gte, lt, lte, eq, ne, not, in, notIn, like, notLike, iLike, notILike
-arrays: overlap, contains, contained
+arrays: overlap, contains, contained, between, notBetween
 - Convert sort attribute into order clause
 - Multiple sort values (comma separated)
 
