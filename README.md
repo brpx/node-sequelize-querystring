@@ -57,6 +57,11 @@ The handler has pagination and by default it replies the first 10 items. To get 
   http://localhost:3000/v1/articles?filter=author eq joaquim&limit=10&offset=10
 ```
 
+The filter is also compatible with with multiple values operator 'or', 'in', 'notIn', 'overlap', 'contains', 'contained', 'between', 'notBetween' (Every values are seperated with a space):
+
+```
+  http://localhost:3000/v1/articles?filter=date between 1995 2020
+```
 ## Contribute
 
 If you want to contribute your're welcome. Keep in mind:
