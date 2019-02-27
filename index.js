@@ -75,7 +75,7 @@ class SequelizeQueryStringParser {
     }
     const arrayHaveOps = {
       valFunc: arrayHave,
-      ops: ['or', 'in', 'notIn', 'overlap', 'contains', 'contained']
+      ops: ['or', 'in', 'notIn', 'overlap', 'contains', 'contained', 'between', 'notBetween']
     }
     let resultMap = {}
     for (var opSet of [identityOps, arrayHaveOps]) {

@@ -213,6 +213,47 @@ describe('Convert query strings into Sequelize find queries.', (done) => {
     expect(where.list[sequelize.Op.in]).to.have.property(1, '{joao}')
   })
 
+  it('(between) PosgreSQL Between operator, with multiple values.', () => {
+
+    let today = new Date()
+    let fromDate = today.toISOString()
+    let toDate = new Date(today.getTime() + 34210800000 ).toISOString()
+
+    let qs = `date between ${fromDate} ${toDate}`
+    let where = sqs.find(qs)
+
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('date.$between.0', `{${fromDate}}`)
+    expect(where).to.have.deep.property('date.$between.1', `{${toDate}}`)
+    // test symbolic
+    where = sqsSym.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.property('date')
+    expect(where.date).to.have.property(sequelize.Op.between)
+    expect(where.date[sequelize.Op.between]).to.have.property(0, `{${fromDate}}`)
+    expect(where.date[sequelize.Op.between]).to.have.property(1, `{${toDate}}`)
+  })
+
+  it('(notBetween) PosgreSQL Not Between operator, with multiple values.', () => {
+    let today = new Date()
+    let fromDate = today.toISOString()
+    let toDate = new Date(today.getTime() + 34210800000 ).toISOString()
+
+    let qs = `date notBetween ${fromDate} ${toDate}`
+    let where = sqs.find(qs)
+
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('date.$notBetween.0', `{${fromDate}}`)
+    expect(where).to.have.deep.property('date.$notBetween.1', `{${toDate}}`)
+    // test symbolic
+    where = sqsSym.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.property('date')
+    expect(where.date).to.have.property(sequelize.Op.notBetween)
+    expect(where.date[sequelize.Op.notBetween]).to.have.property(0, `{${fromDate}}`)
+    expect(where.date[sequelize.Op.notBetween]).to.have.property(1, `{${toDate}}`)
+  })
+
   it('(notIn) PosgreSQL In operator.', () => {
     let qs = 'list notIn ricardo'
     let where = sqs.find(qs)
