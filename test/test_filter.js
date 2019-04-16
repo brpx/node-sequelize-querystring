@@ -9,6 +9,18 @@ const sqs = require('../index.js')
 
 
 describe('Convert query strings into Sequelize find queries.', (done) => {
+  it('(eq) Find convert equal operator with utf8letter to where.', () => {
+    let qs = 'geoId eq 测试'
+    let where = sqs.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.deep.property('geoId.$eq', '测试')
+    // test symbolic
+    where = sqsSym.find(qs)
+    expect(where).to.be.instanceof(Object)
+    expect(where).to.have.property('geoId')
+    expect(where.geoId).to.have.property(sequelize.Op.eq, '测试')
+  })
+
   // test string, integer and UUID
   it('(eq) Find convert equal operator to where.', () => {
     let qs = 'geoId eq 4301'
