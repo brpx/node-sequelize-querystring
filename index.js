@@ -102,13 +102,13 @@ class SequelizeQueryStringParser {
   find (expression) {
     let where = {}
     if (expression.match(new RegExp(`(([\\w|.]+)\\s(\\w+)\\s([\\w|\\s|%|_|${utf8letters}]+),?)+`))) {
-      let parts = (expression).split(',')
+      let parts = (expression).split(/,\s/)
       const operators = this.operators()
       for (let i = 0; i < parts.length; i++) {
         // build a regexp to match filter expressions
         const lhs = '[\\w|.]+'
         const op = '\\w+'
-        const rhs = `[A-Za-z0-9.+@:/()%_\\s\\-\\xAA\\xB5\\xBA${utf8letters}]+`
+        const rhs = `.+`
         const expressionRegExp = new RegExp(`(${lhs})\\s+(${op})\\s+(${rhs})`)
         if (parts[i].match(expressionRegExp)) {
           let prop = RegExp.$1
