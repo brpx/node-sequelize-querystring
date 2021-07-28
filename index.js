@@ -101,7 +101,7 @@ class SequelizeQueryStringParser {
    */
   find (expression) {
     let where = {}
-    if (expression.match(/(([\w|.]+)\s(\w+)\s([\w|\s|%|_]+),?)+/)) {
+    if (expression.match(/(([\w|.]+)(\s|%20)(\w+)(\s|%20)([\w|\s|%|_]+)?)+/)) {
       let parts = (expression).split(',')
       const operators = this.operators()
       for (let i = 0; i < parts.length; i++) {
@@ -112,8 +112,8 @@ class SequelizeQueryStringParser {
         const expressionRegExp = new RegExp(`(${lhs})(\\s|%20)+(${op})(\\s|%20)+(${rhs})`)
         if (parts[i].match(expressionRegExp)) {
           let prop = RegExp.$1
-          let op = RegExp.$2
-          let value = RegExp.$3
+          let op = RegExp.$3
+          let value = RegExp.$5
           if (!operators[op]) {
             throw new Error(`Invalid operator ${op}`)
           }
