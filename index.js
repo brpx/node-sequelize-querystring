@@ -23,7 +23,7 @@ const deepPropSet = (obj, dotPath, key, val) => {
  * @description Used to parse query strings and produce sort / filter objects 
  *  for sequelize querying
  */
-class SequelizeQueryStringParser { 
+class SequelizeQueryStringParser {
   /** @constructor
    *
    * @param {Object} sequelize - the user's `require('sequelize')`
@@ -31,7 +31,7 @@ class SequelizeQueryStringParser {
    * @param {Boolean} opts.symbolic - whether to use symbolic Ops 
    *    or (deprecated) string Ops
    */
-  constructor (sequelize, opts={}) {
+  constructor(sequelize, opts = {}) {
     this.sequelize = sequelize
     this.symbolic = opts.symbolic || false
     if (opts.symbolic && !sequelize) {
@@ -50,9 +50,9 @@ class SequelizeQueryStringParser {
    * @param {Boolean} opts.symbolic - will be set to true regardless of passed value
    * @returns an instance of `SequelizeQueryStringParser` with symbolic=true.
    */
-  withSymbolicOps (sequelize, opts={}) {
-    return new SequelizeQueryStringParser(sequelize, 
-      Object.assign(opts, {symbolic: true}))
+  withSymbolicOps(sequelize, opts = {}) {
+    return new SequelizeQueryStringParser(sequelize,
+      Object.assign(opts, { symbolic: true }))
   }
 
   /** @method
@@ -70,8 +70,8 @@ class SequelizeQueryStringParser {
   operators() {
     const identityOps = {
       valFunc: identity,
-      ops: ['gt', 'gte', 'lt', 'lte', 'ne', 'eq', 'not', 'like', 
-      'notLike', 'iLike', 'notILike']
+      ops: ['gt', 'gte', 'lt', 'lte', 'ne', 'eq', 'not', 'like',
+        'notLike', 'iLike', 'notILike']
     }
     const arrayHaveOps = {
       valFunc: arrayHave,
@@ -81,7 +81,7 @@ class SequelizeQueryStringParser {
     for (var opSet of [identityOps, arrayHaveOps]) {
       for (var op of opSet.ops) {
         resultMap[op] = {
-          'op': (this.symbolic ? this.sequelize.Op[op] : `$${op}`), 
+          'op': (this.symbolic ? this.sequelize.Op[op] : `$${op}`),
           'valFunc': opSet.valFunc
         }
       }
@@ -99,7 +99,7 @@ class SequelizeQueryStringParser {
    * @returns {Object} the where clause for building the corresponding 
    *    Sequelize query
    */
-  find (expression) {
+  find(expression) {
     let where = {}
     if (expression.match(/(([\w|.]+)(\s|%20)(\w+)(\s|%20)([\w|\s|%|_]+)?)+/)) {
       let parts = (expression).split(',')
@@ -141,7 +141,8 @@ class SequelizeQueryStringParser {
    * @returns {Array} the order clause for building the corresponding Sequelize 
    *    query
    */
-  sort (expression, sequelize) {
+  sort(expression, sequelize) {
+
     // maintain backward-compatibility with v0.x.x, where users supply
     // their own sequelize object as the second param of sort()
     sequelize = sequelize || this.sequelize
@@ -152,7 +153,16 @@ class SequelizeQueryStringParser {
       if (exp.length === 2) {
         let prop = exp[0]
         let ord = exp[1].toUpperCase()
-        if (ord.match(/ASC|DESC/i)) {
+
+        let nests = prop.split('.')
+
+        if (nests.length > 1) {
+          prop = nests
+          if (ord.match(/ASC|DESC/i)) {
+            prop.push(ord.toUpperCase())
+            order.push(prop)
+          }
+        } else if (ord.match(/ASC|DESC/i)) {
           order.push([prop, ord.toUpperCase()])
         }
       }
