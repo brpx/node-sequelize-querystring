@@ -10,12 +10,9 @@ const arrayHave = (v) => { return v.split(' ').map(v => { return isNaN(v) ? `{${
  * (replacing _.set() to avoid importing all of underscore)
  */
 const deepPropSet = (obj, dotPath, key, val) => {
-  const props = dotPath.split('.')
-  let here = obj
-  props.forEach((prop, i) => {
-    here = (here[prop] = here[prop] || {})
-  })
-  here[key] = val
+  obj[`$${dotPath}$`] = {
+    [key]: val
+  }
 }
 
 /** @class
