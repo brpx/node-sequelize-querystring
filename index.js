@@ -10,8 +10,15 @@ const arrayHave = (v) => { return v.split(' ').map(v => { return isNaN(v) ? `{${
  * (replacing _.set() to avoid importing all of underscore)
  */
 const deepPropSet = (obj, dotPath, key, val) => {
-  obj[`$${dotPath}$`] = {
-    [key]: val
+  
+  if(dotPath.split('.').length > 1) {
+    obj[`$${dotPath}$`] = {
+      [key]: val
+    }
+  } else {
+    obj[`${dotPath}`] = {
+      [key]: val
+    }
   }
 }
 
