@@ -30,7 +30,7 @@
   "dependencies": {},
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.3.0",
+    "mocha": "^10.2.0",
     "install": "^0.10.1",
     "npm": "^6.14.6",
     "sequelize": "^4.1.0"
